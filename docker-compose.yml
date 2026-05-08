@@ -2,19 +2,18 @@ version: '3'
 
 services:
   presell-kravmaga:
-    build: .
+    image: ghcr.io/orakysec/lp-kravmaga:latest
     container_name: presell-kravmaga
     restart: always
     labels:
       - "traefik.enable=true"
-      # Altere 'seu-dominio.com' para o domínio que você vai usar
       - "traefik.http.routers.presell-kravmaga.rule=Host(`kravmaga.ykaromarques.com`)"
       - "traefik.http.routers.presell-kravmaga.entrypoints=websecure"
-      - "traefik.http.routers.presell-kravmaga.tls.certresolver=letsencrypt" # Altere se o seu resolver tiver outro nome
+      - "traefik.http.routers.presell-kravmaga.tls.certresolver=letsencryptresolver"
       - "traefik.http.services.presell-kravmaga.loadbalancer.server.port=80"
     networks:
-      - YkaroNET # Certifique-se de que esta é a rede do seu Traefik
+      - YkaroNET
 
 networks:
-  proxy:
+  YkaroNET:
     external: true
